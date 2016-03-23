@@ -1,5 +1,6 @@
 var PeerPost = require("./PeerPostModel.js");
 var Q = require("q");
+var request = require('request');
 
 
 var createPost = Q.nbind(PeerPost.create, PeerPost);
@@ -63,8 +64,40 @@ module.exports = {
 				})
 	},
 
-	getFeed: function(){
-		//req.session = {user: {auth: "peerlyst", user_id: 1, name: "Joshua Huang"}} //TODO: Dummy Data to simulate logged in user
+	getFeed: function(req, res){
+		var feed = [];
+		var PeerLystPostsA, PeerLystPostsB, UserPosts;
+		request({
+			method: "GET",
+			url: "http://localhost:8082/getPeerlystPostsA"
+		}, function(err, res2, body){
+			PeerLystPostsA = JSON.parse(body);
+			res.send(200)
+		})
+		request({
+			method: "GET",
+			url: "http://localhost:8082/getPeerlystPostsB"
+		}, function(err, res2, body){
+			PeerLystPostsB = JSON.parse(body);
+			res.send(200)
+		})
+		request({
+			method: "GET",
+			url: "http://localhost:8082/getUserPosts"
+		}, function(err, res2, body){
+			UserPosts = JSON.parse(body);
+			res.send(200)
+		})
+
+		for(var i=0; i<100; i++){
+			if(PeerLystPostsA.length > 0){
+				feed.push(PeerLystPostA.shift())
+			}
+			if(PeerLystPostsB.length > 0){
+				feed.push(PeerLystPostB.shift())
+			}
+		}
+
 
 		//var PeerLystPostsA = module.exports.getPeerlystPostsA()
 		//var PeerLystPostsB = module.exports.getPeerlystPostsB()
