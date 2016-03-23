@@ -4,42 +4,34 @@ var Q = require("q");
 
 
 var createTag = Q.nbind(tag.create, tag);
+var findTag = Q.bind(tag.find, tag)
 var createRelationship = Q.nbind(tag_post.find, tag_post);
 
 module.exports = {
-	addPost: function(req, res, next){
+	addTags: function(Tags){
 		req.session = {user: {auth: "peerlyst", user_id: 1, name: "Joshua Huang"}} //TODO: Dummy Data to simulate logged in user
-		console.log("Request Body: ",req.body)
-		var auth = req.session.user.auth
-		var type = req.body.type;
-		var user = req.session.user.user_id
-		var tags = req.body.tags
-		var content = req.body.content
-
-		createPost({
-			auth: auth,
-			type: type,
-			user_id: user,
-			tags: tags,
-			content: content
-		})
-				.then(function(newPost){
-					res.json(newPost)
-				})
-				.fail(function(error){
-					next(error)
-				})
+		for(var i=0; i<Tags.length; i++){
+			var target = Tags[i]
+			findTag({name:target})
+					.then(function(result){
+						if(!result){
+							createTag({name:target})
+									.then(function(tag){
+										res.json(tag)
+									})
+						}
+					})
+		}
 	},
 
-	getPeerlystPosts: function(req, res){
-		findAllPosts({auth:"peerlyst"})
-				.then(function(posts){
-					//console.log(posts)
-					res.json(posts)
-				})
-				.fail(function(error){
-					throw error
-				})
+	getAllTags: function(req, res){
+		findTag({})
+		.then(function(tags){
+			res.json(tags)
+		})
+		.fail(function(error){
+			throw error
+		})
 	},
 
 	getUserPosts: function(req, res){
