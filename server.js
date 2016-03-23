@@ -4,7 +4,7 @@ var session = require('express-session') // Currently not in use but would be us
 var bodyParser = require("body-parser")
 var app = express();
 
-
+//MiddleWare
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

@@ -4,8 +4,7 @@ var Q = require("q");
 
 
 var createTag = Q.nbind(tag.create, tag);
-var findTag = Q.bind(tag.find, tag)
-var createRelationship = Q.nbind(tag_post.create, tag_post);
+var findTag = Q.bind(tag.find, tag);
 
 module.exports = {
 	addTags: function(Tags){
