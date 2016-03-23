@@ -17,6 +17,8 @@ app.listen(8082, function(){
 var peerlyst_posts = require("./peerlyst_posts/PeerPostController");
 
 
+//AUTH MIDDLEWARE
+
 var authenticate = function(req, res, next){
 	req.session = {user: {auth: "peerlyst", user_id: 1, name: "Joshua Huang"}} //TODO: Simulates logged in user
 	if(req.session.user){
@@ -30,6 +32,9 @@ var authenticate = function(req, res, next){
 		next()
 	}
 }
+
+
+//ROUTES TODO: Need to refactor to own file
 
 
 app.post("/post", authenticate, peerlyst_posts.addPost)
