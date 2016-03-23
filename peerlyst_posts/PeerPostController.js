@@ -30,8 +30,19 @@ module.exports = {
 		})
 	},
 
-	getPeerlystPosts: function(req, res){
-		findAllPosts({auth:"peerlyst"})
+	getPeerlystPostsA: function(req, res){
+		findAllPosts({auth:"peerlyst", type:"a"})
+				.then(function(posts){
+					//console.log(posts)
+					res.json(posts)
+				})
+				.fail(function(error){
+					throw error
+				})
+	},
+
+	getPeerlystPostsB: function(req, res){
+		findAllPosts({auth:"peerlyst", type:"b"})
 				.then(function(posts){
 					//console.log(posts)
 					res.json(posts)
@@ -44,13 +55,20 @@ module.exports = {
 	getUserPosts: function(req, res){
 		findAllPosts({auth:"user"})
 				.then(function(posts){
-					//console.log(posts)
+					console.log(posts)
 					res.json(posts)
 				})
 				.fail(function(error){
 					throw error
 				})
+	},
+
+	getFeed: function(){
+		//req.session = {user: {auth: "peerlyst", user_id: 1, name: "Joshua Huang"}} //TODO: Dummy Data to simulate logged in user
+
+		//var PeerLystPostsA = module.exports.getPeerlystPostsA()
+		//var PeerLystPostsB = module.exports.getPeerlystPostsB()
+		//var UserPosts = module.exports.getUserPosts()
 	}
-
-
 }
+

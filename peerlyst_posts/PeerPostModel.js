@@ -6,6 +6,10 @@ var PeerPostSchema = new mongoose.Schema({
 		type: String
 	},
 
+	type: {
+		type: String
+	},
+
 	group: {
 		type: String
 	},
@@ -20,6 +24,10 @@ var PeerPostSchema = new mongoose.Schema({
 
 	content: {
 		type: String
+	},
+
+	following: {
+		type: Array
 	}
 
 });
