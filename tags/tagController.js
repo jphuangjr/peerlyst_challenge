@@ -5,7 +5,7 @@ var Q = require("q");
 
 var createTag = Q.nbind(tag.create, tag);
 var findTag = Q.bind(tag.find, tag)
-var createRelationship = Q.nbind(tag_post.find, tag_post);
+var createRelationship = Q.nbind(tag_post.create, tag_post);
 
 module.exports = {
 	addTags: function(Tags){
@@ -32,17 +32,6 @@ module.exports = {
 		.fail(function(error){
 			throw error
 		})
-	},
-
-	getUserPosts: function(req, res){
-		findAllPosts({auth:"user"})
-				.then(function(posts){
-					//console.log(posts)
-					res.json(posts)
-				})
-				.fail(function(error){
-					throw error
-				})
 	}
 
 
